@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>账号列表</title>
+  <link rel="stylesheet" href="layui/css/layui.css">
+<script src="Bmob-2.2.5.min.js"></script>
+</head>
+<body>
+<table class="layui-table" id="test" lay-filter="test"></table>
+
+<script src="layui/layui.js"></script>
+<script>
+layui.use('table', function(){
+  var table = layui.table
+  ,laydate = layui.laydate
+  ,form = layui.form;
+
+  Bmob.initialize("f1cdf3c708bde14d", "981124");
+
+
+  const query = Bmob.Query('cs');
+  query.find().then(res => {
+      data=res;
+      console.log(res)
+      table.render({
+        elem: '#test'
+        ,url:'https://d1124.github.io/firstone/1.json'
+        ,title: '账号表'
+        ,cols: [
+          [
+          {field:'5ename', title:'5e昵称',edit: 'text', sort: true}
+          ,{field:'5eac', title:'手机号',edit: 'text', sort: true}
+          ,{field:'5epa',title:'5e密码',edit: 'text', sort: true}
+          ,{field:'steamac',title:'steam账号',edit: 'text', sort: true}
+           ,{field:'steampa',title:'steam密码',edit: 'text', sort: true}
+          ]
+          ]
+        ,response: {
+          statusCode: 200
+        }
+        ,parseData: function(res){
+          return {
+            "code": res.status,
+            "msg": data.length,
+            "count": data.length,
+            "data": data
+          };
+        }
+      });
+    }).catch(err => {
+      console.log(err)
+    })
+
+
+});
+</script>
+</body>
+</html>
